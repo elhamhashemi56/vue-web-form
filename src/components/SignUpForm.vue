@@ -1,10 +1,11 @@
 <template>
-    <form>
+    <form @submit.prevent="handleSubmit">
         <label>Email:</label>
         <input type="email" v-model="email">
 
         <label>Password:</label>
         <input type="password" v-model="password">
+        <p class="error">{{ passwordError }}</p>
 
         <label >Role:</label>
         <select v-model="role">
@@ -16,7 +17,7 @@
             <label>Skills: <p>(Please press (Alt + ,) for tag to adding)</p></label>
             <input type="text" @keyup.alt="addSkill" v-model="tempSkill">
             <div v-for="item in skills" :key="item" class="pill">
-               <p @click="handleDelete(item)">{{ item }}</p> 
+               <div @click="handleDelete(item)">{{ item }}</div> 
             </div>
         </div>
 
@@ -38,6 +39,11 @@
             <input type="checkbox"  value="ali" v-model="names">
             <label >Ali</label>
         </div>
+
+        <div class="submit">
+            <button>Create an Account</button>
+        </div>
+       
     </form>
   <p>{{ email }}</p>
   <p>{{ password }}</p>
@@ -50,13 +56,14 @@
 export default {
     data(){
         return{
-            email:"hamid",
-            password:"fffff",
+            email:"",
+            password:"",
             role:"developer",
             terms:true,
             names:[],
             tempSkill:"",
-            skills:[]
+            skills:[],
+            passwordError:""
 
         }
 
@@ -78,8 +85,14 @@ export default {
             })
 
             this.skills=skills
+        },
+        handleSubmit(){
+            console.log("handle submit");
+            this.passwordError=this.password.length >5 ? "" : "Password is not more than 5 Char"
+            if(!this.passwordError){
+                console.log("Form submited");
+            }
         }
-       
     }
 
 }
@@ -127,7 +140,22 @@ input[type="checkbox"]{
     padding: 10px;
     margin: 10px;
     background-color: #eee;
-    border-radius: 50px;
+    border-radius:50%;
     cursor: pointer;
+}
+
+button{
+    border: 0;
+    padding: 10px 20px;
+    background-color: #0b6dff;
+    border-radius: 20px;
+    color: white;
+}
+
+.submit{
+   text-align: center;
+}
+.error{
+    color: red;
 }
 </style>
