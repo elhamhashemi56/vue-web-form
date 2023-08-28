@@ -13,9 +13,11 @@
         </select>
 
         <div>
-            <label>Skills: <p>(Please press (Alt + ,) For tag to adding)</p></label>
+            <label>Skills: <p>(Please press (Alt + ,) for tag to adding)</p></label>
             <input type="text" @keyup.alt="addSkill" v-model="tempSkill">
-            <div v-for="item in skills" :key="item">{{ item }}</div>
+            <div v-for="item in skills" :key="item" class="pill">
+               <p @click="handleDelete(item)">{{ item }}</p> 
+            </div>
         </div>
 
         <div class="terms">
@@ -68,8 +70,14 @@ export default {
                 }
                 this.tempSkill=""
             }
-            
-            
+        },
+        handleDelete(item){
+            console.log(item);
+            const skills=this.skills.filter(ele=>{
+                return ele !== item
+            })
+
+            this.skills=skills
         }
        
     }
@@ -113,5 +121,13 @@ input[type="checkbox"]{
     padding: 0;
     margin: 0;
     width: 16px;
+}
+.pill{
+    display: inline-block;
+    padding: 10px;
+    margin: 10px;
+    background-color: #eee;
+    border-radius: 50px;
+    cursor: pointer;
 }
 </style>
